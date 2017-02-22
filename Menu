@@ -1,0 +1,52 @@
+#include "stdafx.h"
+#include <iostream>
+#include "conio.h"
+#include "math.h"
+#include "string.h"
+
+using namespace std;
+
+void main()
+{float lado, ancho, altura, base, area;
+ int opc;
+ cout<<"------------------- MENU --------------------";
+ cout<<"\n 1.- Calcular Area del Cuadrado";
+ cout<<"\n 2.- Calcular Area del Triangulo";
+ cout<<"\n 3.- Calcular Area del Rectangulo";
+ cout<<"\n 0.- Salir";
+ cout<<"\n ------------------------------------------";
+ cout<<"\n\n Ingrese su opcion : ";
+ cin>>opc;
+ switch(opc)
+	{case 1 : {cout<<"\n\n Ingrese el lado del cuadrado : ";
+			   cin>>lado;
+			   area = powf(lado, 2);
+			   cout<<"\n\n Area del cuadrado : "<<area;
+			   break;
+			  }
+
+	 case 2 : {cout<<"\n\n Ingrese la base del triangulo : ";
+			   cin>>base;
+			   cout<<"\n\n Ingrese la altura del triangulo : ";
+			   cin>>altura;
+			   area = (base * altura)/2;
+			   cout<<"\n\n Area del triangulo : "<<area;
+			   break;
+			  }
+
+	 case 3 : {cout<<"\n\n Ingrese el ancho del reactangulo : ";
+			   cin>>ancho;
+			   cout<<"\n\n Ingrese la altura del rectangulo : ";
+			   cin>>altura;
+			   area = ancho * altura;
+			   cout<<"\n\n Area del rectangulo : "<<area;
+			   break;
+			  }
+
+	 case 0 : cout<<"\n\n Hasta luego";break;
+
+	 default : cout<<"\n\n Opcion Invalida";break;
+
+	}
+ getch();
+}
