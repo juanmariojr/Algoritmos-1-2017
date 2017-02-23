@@ -1,0 +1,72 @@
+#include "stdafx.h"
+#include <iostream>
+#include "conio.h"
+#include "math.h"
+#include "string.h"
+
+using namespace std;
+
+void main()
+{float total = 0, precio, subTotal;
+ int opc, cant;
+ do
+	{
+	 cout<<"------------------- MENU --------------------";
+	 cout<<"\n 1.- Hamburguesa (3 Bs)";
+	 cout<<"\n 2.- Hamburguesa con queso (5 Bs)";
+	 cout<<"\n 3.- Papas fritas (2 Bs)";
+	 cout<<"\n 4.- Soda (2.5 Bs)";
+	 cout<<"\n 5.- Malteada (4 Bs)";
+	 cout<<"\n 0.- Fin del pedido";
+	 cout<<"\n ------------------------------------------";
+	 cout<<"\n\n Ingrese su opcion : ";
+	 cin>>opc;
+	 switch(opc)
+		 {case 1 : {precio = 3;
+					cout<<"\n\n Ingrese la cantidad : ";
+					cin>>cant;
+					subTotal = precio * cant;
+					total = total + subTotal;
+					break;
+				   }
+
+		  case 2 : {precio = 5;
+					cout<<"\n\n Ingrese la cantidad : ";
+					cin>>cant;
+					subTotal = precio * cant;
+					total = total + subTotal;
+					break;
+				   }
+
+		  case 3 : {precio = 2;
+					cout<<"\n\n Ingrese la cantidad : ";
+					cin>>cant;
+					subTotal = precio * cant;
+					total = total + subTotal;
+					break;
+				   }
+
+		  case 4 : {precio = 2.5;
+					cout<<"\n\n Ingrese la cantidad : ";
+					cin>>cant;
+					subTotal = precio * cant;
+					total = total + subTotal;
+				    break;
+				   }
+
+		  case 5 : {precio = 4;
+					cout<<"\n\n Ingrese la cantidad : ";
+					cin>>cant;
+					subTotal = precio * cant;
+					total = total + subTotal;
+					break;
+				   }
+
+		  case 0 : cout<<"\n\n Total : "<<total;break;
+
+		  default : cout<<"\n\n Opcion Invalida";break;
+
+		 }
+	}while(opc != 0);
+ getch();
+}
