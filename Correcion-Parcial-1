@@ -1,0 +1,183 @@
+#include "stdafx.h"
+#include <iostream>
+#include "conio.h"
+
+using namespace std;
+
+int Riesgo(float sueldo, int historial, int moroso, float hipoteca);
+
+void main()
+{float sueldo, hipoteca;
+ int historial, moroso, riesgo;
+
+ cout<<"\n\n Ingrese el sueldo de la persona : ";
+ cin>>sueldo;
+
+ do
+	{cout<<"\n\n Tiene historial de pagos? (1/0) : ";
+	 cin>>historial;
+	}while(historial != 0 && historial != 1);
+ 
+ do
+	{cout<<"\n\n Ha sido moroso? (1/0) : ";
+	 cin>>moroso;
+	}while(moroso != 0 && moroso != 1);
+
+ cout<<"\n\n Ingrese la hipoteca de la persona : ";
+ cin>>hipoteca;
+
+ riesgo = Riesgo(sueldo, historial, moroso, hipoteca);
+
+ cout<<"\n\n Riesgo : "<<riesgo;
+
+ getch();
+}
+
+
+
+
+int Riesgo(float sueldo, int historial, int moroso, float hipoteca)
+{int riesgo = 3;
+ 
+ if(historial == 1 && moroso == 1)
+	riesgo = 1;
+
+ if(hipoteca / sueldo > 0.4)
+	riesgo = 1;
+
+ if(historial == 0 && hipoteca / sueldo < 0.3)
+	riesgo = 2;
+
+ if(historial == 1 && moroso == 0 && hipoteca / sueldo < 0.3)
+	riesgo = 2;
+
+ return(riesgo);
+}
+
+
+
+#include "stdafx.h"
+#include <iostream>
+#include "conio.h"
+#include "math.h"
+
+using namespace std;
+
+void main()
+{int i, x, n;
+ float termino, suma = 0;
+
+ do
+	{cout<<"\n\n Ingrese n : ";
+	 cin>>n;
+	}while(n < 0);
+
+ do
+	{cout<<"\n\n Ingrese x : ";
+	 cin>>x;
+	}while(x < 0);
+
+ for(i = 0; i <= n; i++)
+	{termino = pow(1 + (1.0 / x) , i);
+	 suma = suma + termino;
+	 cout<<"\n\n Termino actual : "<<termino;
+	 cout<<"\n Suma actual de terminos : "<<suma;
+	}
+ getch();
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include "stdafx.h"
+#include <iostream>
+#include "conio.h"
+#include "math.h"
+
+using namespace std;
+
+int tipoResultado(float a, float b, float c);
+void calculo(float a, float b, float c, int tipoResultado);
+
+void main()
+{float a, b , c;
+ int tResultado;
+
+ cout<<"\n\n Ingrese a : ";
+ cin>>a;
+ cout<<"\n\n Ingrese b : ";
+ cin>>b;
+ cout<<"\n\n Ingrese c: ";
+ cin>>c;
+
+ tResultado = tipoResultado(a, b, c);
+ calculo(a, b, c, tResultado);
+ 
+ getch();
+}
+
+
+
+
+int tipoResultado(float a, float b, float c)
+{int tResultado;
+ 
+ if(powf(b,2) - (4*a*c) == 0)
+	 tResultado = 1;//SOLUCION UNICA
+
+ if(powf(b,2) - (4*a*c) > 0)
+	 tResultado = 2;//SOLUCIONES REALES
+
+ if(powf(b,2) - (4*a*c) < 0)
+	 tResultado = 3;//SOLUCIONES IMAGINARIAS
+
+ return(tResultado);
+}
+
+
+
+
+void calculo(float a, float b, float c, int tResultado)
+{float solucion1 = 0, solucion2 = 0;
+
+ if(tResultado == 1)
+	{solucion1 = (b * (-1)) / (2*a);
+	 cout<<"\n\n Solucion unica : "<<solucion1;
+	}
+
+ if(tResultado == 2)
+	{solucion1 = ((b * (-1)) + sqrt(powf(b,2) - (4*a*c))) / (2*a);
+	 solucion2 = ((b * (-1)) - sqrt(powf(b,2) - (4*a*c))) / (2*a);
+	 cout<<"\n\n Solucion 1 : "<<solucion1;
+	 cout<<"\n\n Solucion 2 : "<<solucion2;
+	}
+
+ if(tResultado == 3)
+	 cout<<"\n\n Soluciones imaginarias";
+}
+
