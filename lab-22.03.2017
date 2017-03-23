@@ -1,0 +1,89 @@
+#include "stdafx.h"
+#include <iostream>
+#include "conio.h"
+
+using namespace std;
+
+void cargarVector(float vec[], int n);
+void mostrarVector(float vec[], int n);
+void ordenarVector(float vec[], int n);
+void intercalar(float vec1[], float vec2 [], int n);
+
+void main()
+{float vec1[100], vec2[100];
+ int n;
+
+ cout<<"\n\n Ingrese el tamano de sus vectores : ";
+ cin>>n;
+
+ cargarVector(vec1, n);
+ mostrarVector(vec1, n);
+ ordenarVector(vec1, n);
+ mostrarVector(vec1, n);
+ cargarVector(vec2, n);
+ mostrarVector(vec2, n);
+ ordenarVector(vec2, n);
+ mostrarVector(vec2, n);
+ intercalar(vec1, vec2, n);
+
+ getch();
+}
+
+
+
+
+void cargarVector(float vec[], int n)
+{int i;
+ for(i = 0; i < n; i++)
+	{cout<<"\n\n Ingrese el valor de vec["<<i+1<<"] : ";
+	 cin>>vec[i];
+	}
+}
+
+
+
+
+void mostrarVector(float vec[], int n)
+{int i;
+ cout<<"\n\n Valores actuales del vector : \n";
+ for(i = 0; i < n; i++)
+	{cout<<"\n vec["<<i+1<<"] : "<<vec[i];
+	}
+}
+
+
+
+
+void ordenarVector(float vec[], int n)
+{int i, j, aux;
+ cout<<"\n\n Ordenamos ascendentemente el vector \n";
+ for(i = 0; i < n-1; i++)
+	{for(j = i; j < n; j++)
+		{if(vec[i] > vec[j])
+			{aux = vec[i];
+			 vec[i] = vec[j];
+			 vec[j] = aux;
+			}
+		}
+	}
+}
+
+
+
+
+void intercalar(float vec1[], float vec2[], int n)
+{float vec3[100];
+ int m, i;
+ m = n * 2;
+
+ for(i = 0; i < n; i++)
+	{vec3[i] = vec1[i];
+	}
+ for(i = 0; i < n; i++)
+	{vec3[n + i] = vec2[i];
+	}
+
+ ordenarVector(vec3, m);
+ mostrarVector(vec3, m);
+ 
+}
