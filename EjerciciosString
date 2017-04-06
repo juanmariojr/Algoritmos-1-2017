@@ -6,9 +6,8 @@
 using namespace std;
 
 void main()
-{	int longitud,cont,pos;
+{int longitud,cont,pos;
 	char aux;
-	
 	string var1, var2, nombre; //Declarar strings
 	
 	cout<<endl<<" Ejemplo de uso de getline para ingresar cadena de caracteres";
@@ -66,6 +65,7 @@ void main()
 	
 	// Invertir una frase 
 
+	cout<<"\n Ingrese cadena de caracteres para invertir : ";
 	getline(cin,nombre);
 	var2=nombre;
 	longitud=nombre.length();
@@ -91,5 +91,5 @@ void main()
 			cont++;
 		}
 	cout<<"\n Sin vocales es: "<<var2;
-	getch();
+ getch();
 }
