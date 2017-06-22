@@ -1,0 +1,632 @@
+#include "stdafx.h"
+#include <iostream>
+#include <stdio.h>
+#include "conio.h"
+#include "stdlib.h"
+#include <string>
+#include <iomanip>
+using namespace std;
+
+//Declaracion de estructuras - con String
+
+struct universidad{
+	int iduniversidad;
+	string nombre_u;
+	string pais_u;
+	int estado;
+};
+struct beca{
+	int iduniversidad;
+	string nombre_u;
+	string pais_u;
+	float costo_original;
+	float porcentaje_descuento;
+	float costo_becado;
+	string tipo_beca;
+	int estado;
+};
+struct estudiante{
+	int idestudiante;
+	string nombre;
+	string telefono;
+	string pais_origen;
+	string pais_residencia;
+	int edad;
+	string email;
+	string grado_estudio;
+	int estado;
+};
+struct estudiante_beca{
+	int idestudiante;
+	string pais_u;
+	int iduniversidad;
+	string nombre_u;
+	float costo_becado;
+	string tipo_beca;
+	int estado;
+};
+
+void addestudiante();
+void adduniversidad();
+void addbeca();
+void addestudiante_beca();
+void mostrarestudiante();
+void mostraruniversidad();
+void mostrarbeca();
+void mostrarestudiante_beca();
+void modificarE();
+void modificarU();
+void modificarB();
+void modificarBE();
+void eliminarUsuario();
+void eliminarE();
+void eliminarU();
+void eliminarB();
+void eliminarBE();
+void mainPrincipal();
+void mainEstudiante();
+void mainUniversidad();
+//Menu Principal
+void main(){
+	mainPrincipal();
+	getch();
+}
+//Adicionar
+void addestudiante(){
+	FILE *ptr;
+	estudiante reg;
+	cout << endl << "Ingresar un Id de Estudiante: ";
+	cin >> reg.idestudiante;
+	cout << endl << "Ingrese el nombre de usuario: ";
+	do{
+		getline(cin, reg.nombre);
+	}while(reg.nombre.size()==0);
+	cout << endl << "Ingrese el telefono: ";
+	do{
+		getline(cin, reg.telefono);
+	}while(reg.telefono.size()==0);
+	cout << endl << "Ingrese el pais de origen: ";
+	do{
+		getline(cin, reg.pais_origen);
+	}while(reg.pais_origen.size()==0);
+	cout << endl << "Ingrese el pais de residencia: ";
+	do{
+		getline(cin, reg.pais_residencia);
+	}while(reg.pais_residencia.size()==0);
+	cout << endl << "Ingresar la edad: ";
+	cin >> reg.edad;
+	cout << endl << "Ingrese email: ";
+	do{
+		getline(cin,reg.email);
+	}while(reg.email.size()==0);
+	cout << endl << "Grado de Estudio: ";
+	do{
+		getline(cin,reg.grado_estudio);
+	}while(reg.grado_estudio.size()==0);
+	reg.estado = 0;
+	ptr = fopen("Estudiantes.dat","ab");
+	fwrite(&reg, sizeof(reg), 1, ptr);
+	fclose(ptr);
+}
+void adduniversidad(){
+	FILE *ptr;
+	universidad reg;
+	cout << endl << "Ingresar id de Universidad: ";
+	cin >> reg.iduniversidad;
+	cout << endl << "Nombre de universidad: ";
+	do{
+		getline(cin,reg.nombre_u);
+	}while(reg.nombre_u.size()==0);
+	cout << endl << "Pais de la universidad: ";
+	do{
+		getline(cin,reg.pais_u);
+	}while(reg.pais_u.size()==0);
+	reg.estado = 0;
+	ptr = fopen("Universidades.dat","ab");
+	fwrite(&reg, sizeof(reg), 1, ptr);
+	fclose(ptr);
+}
+void addbeca(){
+	FILE *ptr;
+	beca reg;
+	cout << endl << "Ingresar id de Universidad: ";
+	cin >> reg.iduniversidad;
+	cout << endl << "Nombre de universidad: ";
+	do{
+		getline(cin,reg.nombre_u);
+	}while(reg.nombre_u.size()==0);
+	cout << endl << "Pais de la universidad: ";
+	do{
+		getline(cin,reg.pais_u);
+	}while(reg.pais_u.size()==0);
+	cout << endl << "Ingresar costo original: ";
+	cin >> reg.costo_original;
+	cout << endl << "Ingrese el porcentaje_descuento: ";
+	cin >> reg.porcentaje_descuento;
+	reg.costo_becado = reg.costo_original - (reg.costo_original*(reg.porcentaje_descuento/100));
+	cout << endl << "Ingrese el tipo beca: ";
+	do
+	{
+		getline(cin,reg.tipo_beca);
+	}while(reg.tipo_beca.size()==0);
+	reg.estado = 0;
+	ptr = fopen("Becas.dat","ab");
+	fwrite(&reg, sizeof(reg), 1, ptr);
+	fclose(ptr);
+}
+void addestudiante_beca(){
+	FILE *ptr;
+	estudiante_beca reg;
+	cout << endl << "Ingresar un Id de estudiante: ";
+	cin >> reg.idestudiante;
+	cout << endl << "Ingrese el pais de la universidad: ";
+	do{
+		getline(cin,reg.pais_u);
+	}while(reg.pais_u.size()==0);
+	cout << endl << "Ingrese el id de U: ";
+	cin >> reg.iduniversidad;
+	cout << endl << "Ingrese el nombre de la universidad: ";
+	do{
+		getline(cin,reg.nombre_u);
+	}while(reg.nombre_u.size()==0);
+	cout << endl << "Ingrese el costo becado: ";
+	cin >> reg.costo_becado;
+	cout << endl << "Ingrese el tipo de Beca: ";
+	do{
+		getline(cin,reg.tipo_beca);
+	}while(reg.tipo_beca.size()==0);
+	reg.estado = 0;
+	ptr = fopen("Estudiante_beca.dat","ab");
+	fwrite(&reg, sizeof(reg), 1, ptr);
+	fclose(ptr);
+}
+//Mostrar
+void mostrarestudiante(){
+	FILE *ptr;
+	estudiante reg;
+	ptr = fopen("Estudiantes.dat","rb");
+	if(ptr != NULL){
+		fread(&reg, sizeof(reg), 1, ptr);
+		cout << endl << "-----------------------------------------------------------------------------";
+		cout << endl << "---------------------------- LISTADO DE ESTUDIANTES ----------------------------";
+		cout << endl << "-----------------------------------------------------------------------------";
+		cout << endl << "Id estudiante" << setw(16) << "Nombre" << setw(12) << "telefono" << setw(18) << "Pais de origen"<< setw(18) << "Pais de residencia"<< setw(18) << "Edad"<< setw(18) << "email" << setw(18) << "Grado de Estudio";
+		cout << endl << "-----------------------------------------------------------------------------";
+		while(!feof(ptr)){
+			if(reg.estado == 0){
+				cout << endl << setw(5) << reg.idestudiante << setw(20) << reg.nombre<< setw(12) << reg.telefono << setw(12) << reg.pais_origen << setw(12) << reg.pais_residencia << setw(12) << reg.edad << setw(12) << reg.email << setw(12) << reg.grado_estudio;
+			}
+			fread(&reg, sizeof(reg), 1, ptr);
+		}
+		cout << endl << "-----------------------------------------------------------------------------";
+	}else{
+		cout << "No existe el Archivo";
+	}
+	fclose(ptr);
+}
+void mostraruniversidad(){
+	FILE *ptr;
+	universidad reg;
+	ptr = fopen("Universidades.dat","rb");
+	if(ptr != NULL){
+		fread(&reg, sizeof(reg), 1, ptr);
+		cout << endl << "-----------------------------------------------------------------------------";
+		cout << endl << "--------------------------- LISTADO DE UNIVERSIDADES ----------------------";
+		cout << endl << "-----------------------------------------------------------------------------";
+		cout << endl << "Id universidad" << setw(16) << "Nombre U" << setw(12) << "Pais U";
+		cout << endl << "-----------------------------------------------------------------------------";
+		while(!feof(ptr)){
+			if(reg.estado == 0){
+				cout << endl << setw(5) << reg.iduniversidad << setw(20) << reg.nombre_u << setw(12) << reg.pais_u;
+			}
+			fread(&reg, sizeof(reg), 1, ptr);
+		}
+		cout << endl << "-----------------------------------------------------------------------------";
+	}else{
+		cout << "No existe el Archivo";
+	}
+	fclose(ptr);
+}
+void mostrarbeca(){
+	FILE *ptr;
+	beca reg;
+	ptr = fopen("Becas.dat","rb");
+	if(ptr != NULL){
+		fread(&reg, sizeof(reg), 1, ptr);
+		cout << endl << "-----------------------------------------------------------------------------";
+		cout << endl << "--------------------------- LISTADO DE BECAS ----------------------";
+		cout << endl << "-----------------------------------------------------------------------------";
+		cout << endl << "Id U" << setw(16) << "Nombre U" << setw(12) << "Pais U" << setw(12) << "Costo Original" << setw(12) << "Porcentaje Dscto" << setw(12) << "Costo Becado"<< setw(12) << "Tipo Beca";
+		cout << endl << "-----------------------------------------------------------------------------";
+		while(!feof(ptr)){
+			if(reg.estado == 0){
+				cout << endl << setw(5) << reg.iduniversidad << setw(20) << reg.nombre_u << setw(12) << reg.pais_u << setw(12) << reg.costo_original << setw(12) << reg.porcentaje_descuento << setw(12) << reg.costo_becado << setw(12) << reg.tipo_beca;
+			}
+			fread(&reg, sizeof(reg), 1, ptr);
+		}
+		cout << endl << "-----------------------------------------------------------------------------";
+	}else{
+		cout << "No existe el Archivo";
+	}
+	fclose(ptr);
+}
+void mostrarestudiante_beca(){
+	FILE *ptr;
+	estudiante_beca reg;
+	ptr = fopen("Estudiante_beca.dat","rb");
+	if(ptr != NULL){
+		fread(&reg, sizeof(reg), 1, ptr);
+		cout << endl << "-----------------------------------------------------------------------------";
+		cout << endl << "--------------------------- LISTADO DE ESTUDIANTE BECA ----------------------";
+		cout << endl << "-----------------------------------------------------------------------------";
+		cout << endl << "Id Estudiante" << setw(16) << "Pais U" << setw(12) << "Id Universidad"<< setw(12) << "Nombre Universidad" << setw(12) << "Costo Becado" << setw(12) << "Tipo Beca";
+		cout << endl << "-----------------------------------------------------------------------------";
+		while(!feof(ptr)){
+			if(reg.estado == 0){
+				cout << endl << setw(10) << reg.idestudiante << setw(10) << reg.pais_u << setw(10) << reg.iduniversidad << setw(10) << reg.nombre_u << setw(10) << reg.costo_becado << setw(10) << reg.tipo_beca;
+			}
+			fread(&reg, sizeof(reg), 1, ptr);
+		}
+		cout << endl << "-----------------------------------------------------------------------------";
+	}else{
+		cout << "No existe el Archivo";
+	}
+	fclose(ptr);
+}
+//Modificar
+void modificarE(){
+	FILE *ptr;
+	estudiante regE;
+	int id;
+	cout << "Ingrese el Id de estudiante que desea modificar: ";
+	cin >> id;
+	ptr = fopen("Estudiantes.dat","rb+");
+	if(ptr != NULL){
+		fread(&regE,sizeof(regE),1,ptr);
+		while(!feof(ptr)){
+			if(regE.idestudiante == id){
+				cout << endl << "Ingrese el nombre de usuario: ";
+				do{
+					getline(cin, regE.nombre);
+				}while(regE.nombre.size()==0);
+				cout << endl << "Ingrese el telefono: ";
+				do{
+					getline(cin, regE.telefono);
+				}while(regE.telefono.size()==0);
+				cout << endl << "Ingrese el pais de origen: ";
+				do{
+					getline(cin, regE.pais_origen);
+				}while(regE.pais_origen.size()==0);
+				cout << endl << "Ingresar la edad: ";
+				cin >> regE.edad;
+				cout << endl << "Ingrese email: ";
+				do{
+					getline(cin,regE.email);
+				}while(regE.email.size()==0);
+				cout << endl << "Grado de Estudio: ";
+				do{
+					getline(cin,regE.grado_estudio);
+				}while(regE.grado_estudio.size()==0);
+				regE.estado = 0;
+				fseek(ptr,ftell(ptr)-sizeof(regE),SEEK_SET);
+				fwrite(&regE,sizeof(regE),1,ptr);
+				fclose(ptr);
+				return;
+			}
+			fread(&regE,sizeof(regE),1,ptr);
+		}
+		fclose(ptr);
+	}
+}
+void modificarU(){
+	FILE *ptr;
+	universidad reg;
+	int id;
+	cout << "Ingrese el id de universidad que desea modificar: ";
+	cin >> id;
+	ptr = fopen("Universidades.dat","r+b");
+	if(ptr != NULL){
+		fread(&reg,sizeof(reg),1,ptr);
+		while(!feof(ptr)){
+			if(reg.iduniversidad == id){
+				reg.iduniversidad = id;
+				cout << endl << "Nombre de universidad: ";
+				do{
+					getline(cin,reg.nombre_u);
+				}while(reg.nombre_u.size()==0);
+				cout << endl << "Pais de la universidad: ";
+				do{
+					getline(cin,reg.pais_u);
+				}while(reg.pais_u.size()==0);
+				reg.estado = 0;
+				fseek(ptr,ftell(ptr)-sizeof(reg),SEEK_SET);
+				fwrite(&reg,sizeof(reg),1,ptr);
+				fclose(ptr);
+				return;
+			}
+			fread(&reg,sizeof(reg),1,ptr);
+		}
+		fclose(ptr);
+	}
+}
+void modificarB(){
+	FILE *ptr;
+	beca reg;
+	int id;
+	cout << "Ingrese el id de universidad que desea modificar: ";
+	cin >> id;
+	ptr = fopen("Becas.dat","r+b");
+	if(ptr != NULL){
+		fread(&reg,sizeof(reg),1,ptr);
+		while(!feof(ptr)){
+			if(reg.iduniversidad == id){
+				reg.iduniversidad = id;
+				cout << endl << "Nombre de universidad: ";
+				do{
+					getline(cin,reg.nombre_u);
+				}while(reg.nombre_u.size()==0);
+				cout << endl << "Pais de la universidad: ";
+				do{
+					getline(cin,reg.pais_u);
+				}while(reg.pais_u.size()==0);
+				cout << endl << "Ingresar costo original: ";
+				cin >> reg.costo_original;
+				cout << endl << "Ingrese el porcentaje_descuento: ";
+				cin >> reg.porcentaje_descuento;
+				reg.costo_becado = reg.costo_original - (reg.costo_original*(reg.porcentaje_descuento/100));
+				cout << endl << "Ingrese el tipo beca: ";
+				reg.estado = 0;
+				fseek(ptr,ftell(ptr)-sizeof(reg),SEEK_SET);
+				fwrite(&reg,sizeof(reg),1,ptr);
+				fclose(ptr);
+				return;
+			}
+			fread(&reg,sizeof(reg),1,ptr);
+		}
+		fclose(ptr);
+	}
+}
+void modificarBE(){
+	FILE *ptr;
+	estudiante_beca reg;
+	int id;
+	cout << "Ingrese el id de estudiante: ";
+	cin >> id;
+	ptr = fopen("Estudiante_beca.dat","r+b");
+	if(ptr != NULL){
+		fread(&reg,sizeof(reg),1,ptr);
+		while(!feof(ptr)){
+			if(reg.idestudiante == id){
+				reg.idestudiante = id;
+			cout << endl << "Ingrese el pais de la universidad: ";
+			do{
+				getline(cin,reg.pais_u);
+			}while(reg.pais_u.size()==0);
+			cout << endl << "Ingrese el id de U: ";
+			cin >> reg.iduniversidad;
+			cout << endl << "Ingrese el nombre de la universidad: ";
+			do{
+				getline(cin,reg.nombre_u);
+			}while(reg.nombre_u.size()==0);
+			cout << endl << "Ingrese el costo becado: ";
+			cin >> reg.costo_becado;
+			cout << endl << "Ingrese el tipo de Beca: ";
+			do{
+				getline(cin,reg.tipo_beca);
+			}while(reg.tipo_beca.size()==0);
+			reg.estado = 0;
+			fseek(ptr,ftell(ptr)-sizeof(reg),SEEK_SET);
+			fwrite(&reg,sizeof(reg),1,ptr);
+			fclose(ptr);
+			return;
+			}
+			fread(&reg,sizeof(reg),1,ptr);
+		}
+	}
+}
+void eliminarE(){
+	FILE *ptr;
+	estudiante regE;
+	int id;
+	cout << "Ingrese el Id de estudiante que desea eliminar: ";
+	cin >> id;
+	ptr = fopen("Estudiantes.dat","r+b");
+	if(ptr != NULL){
+		fread(&regE,sizeof(regE),1,ptr);
+		while(!feof(ptr)){
+			if(regE.idestudiante == id && regE.estado == 0){
+				regE.estado = 9;
+				fseek(ptr,ftell(ptr)-sizeof(regE),SEEK_SET);
+				fwrite(&regE,sizeof(regE),1,ptr);
+				fclose(ptr);
+				return;
+			}
+			fread(&regE,sizeof(regE),1,ptr);
+		}
+		fclose(ptr);
+	}
+}
+void eliminarU(){
+	FILE *ptr;
+	universidad reg;
+	int id;
+	cout << "Ingrese el id de universidad que desea eliminar: ";
+	cin >> id;
+	ptr = fopen("Universidades.dat","r+b");
+	if(ptr != NULL){
+		fread(&reg,sizeof(reg),1,ptr);
+		while(!feof(ptr)){
+			if(reg.iduniversidad == id && reg.estado == 0){
+				reg.estado = 9;
+				fseek(ptr,ftell(ptr)-sizeof(reg),SEEK_SET);
+				fwrite(&reg,sizeof(reg),1,ptr);
+				fclose(ptr);
+				return;
+			}
+			fread(&reg,sizeof(reg),1,ptr);
+		}
+		fclose(ptr);
+	}
+}
+void eliminarB(){
+	FILE *ptr;
+	beca reg;
+	int id;
+	cout << "Ingrese el id de universidad que desea eliminar: ";
+	cin >> id;
+	ptr = fopen("Beca.dat","r+b");
+	if(ptr != NULL){
+		fread(&reg,sizeof(reg),1,ptr);
+		while(!feof(ptr)){
+			if(reg.iduniversidad == id && reg.estado == 0){
+				reg.estado = 9;
+				fseek(ptr,ftell(ptr)-sizeof(reg),SEEK_SET);
+				fwrite(&reg,sizeof(reg),1,ptr);
+				fclose(ptr);
+				return;
+			}
+			fread(&reg,sizeof(reg),1,ptr);
+		}
+		fclose(ptr);
+	}
+}
+void eliminarBE(){
+	FILE *ptr;
+	estudiante_beca reg;
+	int id;
+	cout << "Ingrese el id de estudiante que desea eliminar: ";
+	cin >> id;
+	ptr = fopen("Estudiante_beca.dat","r+b");
+	if(ptr != NULL){
+		fread(&reg,sizeof(reg),1,ptr);
+		while(!feof(ptr)){
+			if(reg.idestudiante == id && reg.estado == 0){
+				reg.estado = 9;
+				fseek(ptr,ftell(ptr)-sizeof(reg),SEEK_SET);
+				fwrite(&reg,sizeof(reg),1,ptr);
+				fclose(ptr);
+				return;
+			}
+			fread(&reg,sizeof(reg),1,ptr);
+		}
+	}
+}
+void mainEstudiante(){
+	int opc2;
+	do{
+		cout << endl << "-----------------------------------------";
+		cout << endl << "------- M E N U - ESTUDIANTE -------";
+		cout << endl << "-----------------------------------------";
+		cout << endl << "1.- Registrarse como Estudiante: ";
+		cout << endl << "2.- Mostrar Estudiantes: ";
+		cout << endl << "3.- Modificar Estudiante: ";
+		cout << endl << "4.- Eliminar Estudiante: ";
+		cout << endl << "5.- Mostrar Becas: ";
+		cout << endl << "6.- Aplicar a una Beca: ";
+		cout << endl << "7.- Modificar Aplicacion: ";
+		cout << endl << "8.- Eliminar Aplicacion: ";
+		cout << endl << "9.- Mostrar aplicaciones a universidades: ";
+		cout << endl << "0.- Volver al Menu: ";
+		cout << endl << "-----------------------------------------";
+		cout << endl << "Seleccione una opcion: ";
+		cin >> opc2;
+		switch(opc2){
+		case 1: 
+			addestudiante();
+			break;
+		case 2:
+			mostrarestudiante();
+			break;
+		case 3:
+			modificarE();
+			break;
+		case 4:
+			eliminarE();
+			break;
+		case 5:
+			mostrarbeca();
+			break;
+		case 6:
+			addestudiante_beca();
+			break;
+		case 7:
+			modificarBE();
+			break;
+		case 8:
+			eliminarBE();
+			break;
+		case 9:
+			mostrarestudiante_beca();
+			break;
+		}
+	}while(opc2!=0);
+}
+void mainUniversidad(){
+	int opc3;
+	do{
+		cout << endl << "-----------------------------------------";
+		cout << endl << "------- M E N U - UNIVERSIDAD -----";
+		cout << endl << "-----------------------------------------";
+		cout << endl << "1.- Registrarse como Universidad: ";
+		cout << endl << "2.- Mostrar Universidades: ";
+		cout << endl << "3.- Modificar Universidad: ";
+		cout << endl << "4.- Eliminar Universidad: ";
+		cout << endl << "5.- Adicionar Beca: ";
+		cout << endl << "6.- Mostrar Beca: ";
+		cout << endl << "7.- Modificar Beca: ";
+		cout << endl << "8.- Eliminar Beca: ";
+		cout << endl << "0.- Volver al Menu: ";
+		cout << endl << "-----------------------------------------";
+		cout << endl << "Seleccione una opcion: ";
+		cin >> opc3;
+		switch(opc3){
+		case 1: 
+			adduniversidad();
+			break;
+		case 2:
+			mostraruniversidad();
+			break;
+		case 3:
+			modificarU();
+			break;
+		case 4:
+			eliminarU();
+			break;
+		case 5:
+			addbeca();
+			break;
+		case 6:
+			mostrarbeca();
+			break;
+		case 7:
+			modificarB();
+			break;
+		case 8:
+			eliminarB();
+			break;
+		}
+	}while(opc3!=0);
+}
+
+void mainPrincipal(){
+	int opc1;
+	do{
+		cout << endl << "---------------------------------------";
+		cout << endl << "------------ A C C E D E R ------------";
+		cout << endl << "---------------------------------------";
+		cout << endl << "1.- Ingresar como Estudiante: ";
+		cout << endl << "2.- Ingresar como Universidad: ";
+		cout << endl << "0.- Salir: ";
+		cout << endl << "---------------------------------------";
+		cout << endl << "Seleccione la Opcion que desea: ";
+		cin >> opc1;
+		switch(opc1){
+		case 1: 
+			mainEstudiante();
+			break;
+		case 2:
+			mainUniversidad();
+			break;
+		}
+	}while(opc1!=0);
+}
